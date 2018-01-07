@@ -40,10 +40,10 @@ public class Frame extends javax.swing.JFrame {
         DefaultSyntaxKit.initKit();
 
         jEditorPanel.setContentType("text/java");
-        // jComboBox2.setModel(new DefaultComboBoxModel(DefaultSyntaxKit.getContentTypes()));
-        // jEdtTest.setContentType(jCmbLangs.getItemAt(0).toString());
         jComboBox2.setSelectedItem("text/java");
+     
         new CaretMonitor(jEditorPanel, jLabel1);
+        
         try {
             // Try to load a relatively big Java file
             loadFile("./target/generated-sources/jflex/jsyntaxpane/lexers/ClojureLexer.java");
@@ -61,37 +61,54 @@ public class Frame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        toolBar = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
+        Toolbar = new javax.swing.JToolBar();
+        LoadButton = new javax.swing.JButton();
+        ChangeWorkspaceButton = new javax.swing.JButton();
         jSplitPane2 = new javax.swing.JSplitPane();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTree = new javax.swing.JTree();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
         jEditorPanel = new javax.swing.JEditorPane();
         jLabel1 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
-        jMenuBar2 = new javax.swing.JMenuBar();
+        MenuBar = new javax.swing.JMenuBar();
+        FileMenu = new javax.swing.JMenu();
+        SaveAsMenu = new javax.swing.JMenuItem();
+        LoadFileMenu = new javax.swing.JMenuItem();
+        ChangeWorkspaceMenu = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        toolBar.setFloatable(false);
+        Toolbar.setFloatable(false);
 
-        jButton1.setText("Load File");
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        LoadButton.setText("Load File");
+        LoadButton.setFocusable(false);
+        LoadButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        LoadButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        LoadButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                LoadButtonActionPerformed(evt);
             }
         });
-        toolBar.add(jButton1);
+        Toolbar.add(LoadButton);
+
+        ChangeWorkspaceButton.setText("Change Workspace");
+        ChangeWorkspaceButton.setFocusable(false);
+        ChangeWorkspaceButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        ChangeWorkspaceButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        ChangeWorkspaceButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ChangeWorkspaceButtonMouseClicked(evt);
+            }
+        });
+        ChangeWorkspaceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChangeWorkspaceButtonActionPerformed(evt);
+            }
+        });
+        Toolbar.add(ChangeWorkspaceButton);
 
         jSplitPane2.setDividerLocation(200);
         jSplitPane2.setDividerSize(10);
@@ -106,9 +123,9 @@ public class Frame extends javax.swing.JFrame {
 
         jSplitPane2.setLeftComponent(jScrollPane3);
 
-        jScrollPane1.setViewportView(jEditorPanel);
+        jScrollPane2.setViewportView(jEditorPanel);
 
-        jSplitPane2.setRightComponent(jScrollPane1);
+        jSplitPane2.setRightComponent(jScrollPane2);
 
         jLabel1.setText("Current Position");
 
@@ -121,34 +138,38 @@ public class Frame extends javax.swing.JFrame {
 
         jLabel2.setText("Select Lenguage: ");
 
+        FileMenu.setText("File");
+
+        SaveAsMenu.setText("Save File As");
+        SaveAsMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SaveAsMenuActionPerformed(evt);
+            }
+        });
+        FileMenu.add(SaveAsMenu);
+
+        LoadFileMenu.setText("Load File");
+        LoadFileMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LoadFileMenuActionPerformed(evt);
+            }
+        });
+        FileMenu.add(LoadFileMenu);
+
+        ChangeWorkspaceMenu.setText("Change Workspace");
+        ChangeWorkspaceMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChangeWorkspaceMenuActionPerformed(evt);
+            }
+        });
+        FileMenu.add(ChangeWorkspaceMenu);
+
+        MenuBar.add(FileMenu);
+
         jMenu4.setText("Edit");
+        MenuBar.add(jMenu4);
 
-        jMenu3.setText("File");
-
-        jMenuItem2.setText("Save File");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem2);
-
-        jMenuItem1.setText("Load File");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem1);
-
-        jMenuItem3.setText("Change Workspace");
-        jMenu3.add(jMenuItem3);
-
-        jMenu4.add(jMenu3);
-
-        jMenuBar2.add(jMenu4);
-
-        setJMenuBar(jMenuBar2);
+        setJMenuBar(MenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -164,14 +185,14 @@ public class Frame extends javax.swing.JFrame {
                         .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 585, Short.MAX_VALUE)
                         .addComponent(jLabel1))
-                    .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Toolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Toolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -185,33 +206,34 @@ public class Frame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        final JFileChooser fc = new JFileChooser();
+    private void LoadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadButtonActionPerformed
+        final JFileChooser fc = new JFileChooser(workspace);
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
+                File file = fc.getSelectedFile();
+                className = fc.getName(file);
                 loadFile(fc.getSelectedFile().getPath());
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
 
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_LoadButtonActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        final JFileChooser fc = new JFileChooser();
-        int returnVal = fc.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            try {
-                loadFile(fc.getSelectedFile().getPath());
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+    private void LoadFileMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadFileMenuActionPerformed
+        final JFileChooser fc = new JFileChooser(workspace);
+            int returnVal = fc.showOpenDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                try {
+                    File file = fc.getSelectedFile();
+                    className = fc.getName(file);
+                    loadFile(fc.getSelectedFile().getPath());
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
         }
-
-// TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_LoadFileMenuActionPerformed
 
 
     private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
@@ -230,15 +252,16 @@ public class Frame extends javax.swing.JFrame {
             jEditorPanel.setContentType(lang);
             
             // Recreate the Toolbar
-            toolBar.removeAll();
+            Toolbar.removeAll();
             EditorKit kit = jEditorPanel.getEditorKit();
             
             if (kit instanceof DefaultSyntaxKit) {
                 DefaultSyntaxKit defaultSyntaxKit = (DefaultSyntaxKit) kit;
-                defaultSyntaxKit.addToolBarActions(jEditorPanel, toolBar);
+                defaultSyntaxKit.addToolBarActions(jEditorPanel, Toolbar);
             }
-            toolBar.add(jButton1);
-            toolBar.validate();
+            Toolbar.add(LoadButton);
+            Toolbar.add(ChangeWorkspaceButton);
+            Toolbar.validate();
             try {
                 // setText should not be called (read the JavaDocs).  Better use the read
                 // method and create a new document:
@@ -263,28 +286,62 @@ public class Frame extends javax.swing.JFrame {
     private void jTreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTreeMouseClicked
 
         try {
-
+       
             loadFile(jTree.getSelectionPath().toString().replaceAll("[\\[\\]]", "").replace(", ", "\\"));
-
-            // TODO add your handling code here:
+            
+            
         } catch (IOException ex) {
-          //  Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_jTreeMouseClicked
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-
-        FileWriter out;
-        try {
-            out = new FileWriter(className+"."+classExtention);
-            out.write(jEditorPanel.getText());
-            out.close();
+    private void SaveAsMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveAsMenuActionPerformed
+       
+        JFileChooser fc = new JFileChooser(workspace);
+         int returnVal = fc.showSaveDialog(Frame.this);
+                 
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+             try {
+                 File file = fc.getSelectedFile();
+                 className = fc.getName(file);
+                 FileWriter out = new FileWriter(new File(workspace, className+"."+classExtention));
+                  out.write(jEditorPanel.getText());
+                  out.close();
         } catch (IOException ex) {
             Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } // 
+           }
+       /* FileWriter out;
+       / */
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_SaveAsMenuActionPerformed
+
+    private void ChangeWorkspaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChangeWorkspaceButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ChangeWorkspaceButtonActionPerformed
+
+    private void ChangeWorkspaceButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ChangeWorkspaceButtonMouseClicked
+         final JFileChooser fc = new JFileChooser(workspace);
+         fc.setFileSelectionMode(1);
+         int returnVal = fc.showOpenDialog(this);
+         if (returnVal == JFileChooser.APPROVE_OPTION) {                    
+             workspace = fc.getSelectedFile().getAbsolutePath();
+             jTree.setModel(new FileSystemModel(new File(workspace)));
+             System.out.println(workspace);
+        }
+    }//GEN-LAST:event_ChangeWorkspaceButtonMouseClicked
+
+    private void ChangeWorkspaceMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChangeWorkspaceMenuActionPerformed
+           final JFileChooser fc = new JFileChooser(workspace);
+         fc.setFileSelectionMode(1);
+         int returnVal = fc.showOpenDialog(this);
+         if (returnVal == JFileChooser.APPROVE_OPTION) {                    
+             workspace = fc.getSelectedFile().getAbsolutePath();
+             jTree.setModel(new FileSystemModel(new File(workspace)));
+             System.out.println(workspace);
+        }
+    }//GEN-LAST:event_ChangeWorkspaceMenuActionPerformed
 
     private void loadFile(String filename) throws IOException {
         // This will load a file:
@@ -328,26 +385,27 @@ public class Frame extends javax.swing.JFrame {
         });
     }
 
-    private String workspace = "C:\\Users\\";
+    private String workspace = "C:\\Users\\Rum\\workspace\\INGSW";
     private String className;
     private String classExtention = "java";
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton ChangeWorkspaceButton;
+    private javax.swing.JMenuItem ChangeWorkspaceMenu;
+    private javax.swing.JMenu FileMenu;
+    private javax.swing.JButton LoadButton;
+    private javax.swing.JMenuItem LoadFileMenu;
+    private javax.swing.JMenuBar MenuBar;
+    private javax.swing.JMenuItem SaveAsMenu;
+    private javax.swing.JToolBar Toolbar;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JEditorPane jEditorPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JTree jTree;
-    private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,17 +7,13 @@ package GUI;
 
 import java.awt.event.ItemEvent;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.EditorKit;
 import jsyntaxpane.DefaultSyntaxKit;
@@ -207,12 +203,19 @@ public class Frame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void LoadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadButtonActionPerformed
+        
         final JFileChooser fc = new JFileChooser(workspace);
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 File file = fc.getSelectedFile();
+                path = file.getAbsolutePath();
                 className = fc.getName(file);
+                int i = path.lastIndexOf(".");
+                classExtention = fc.getSelectedFile().getPath().substring(i+1);
+                EditorPannel.setContentType("text/"+classExtention);
+                SelezioneLing.setSelectedItem("text/"+classExtention);
+     
                 loadFile(fc.getSelectedFile().getPath());
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -222,12 +225,20 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_LoadButtonActionPerformed
 
     private void LoadFileMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadFileMenuActionPerformed
+       
         final JFileChooser fc = new JFileChooser(workspace);
             int returnVal = fc.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 try {
+                   
                     File file = fc.getSelectedFile();
+                    path = file.getAbsolutePath();
                     className = fc.getName(file);
+                    int i = fc.getSelectedFile().getPath().lastIndexOf(".");
+                    classExtention = fc.getSelectedFile().getPath().substring(i+1);
+                    EditorPannel.setContentType("text/"+classExtention);
+                    SelezioneLing.setSelectedItem("text/"+classExtention);
+     
                     loadFile(fc.getSelectedFile().getPath());
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -237,11 +248,16 @@ public class Frame extends javax.swing.JFrame {
 
 
     private void SelezioneLingItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_SelezioneLingItemStateChanged
+       
         if (evt.getStateChange() == ItemEvent.SELECTED) {
+            
             String lang = SelezioneLing.getSelectedItem().toString();
             classExtention = lang.substring(5);
+        
             if("python".equals(classExtention)) 
                 classExtention = "py";
+            
+            
             System.out.println(classExtention);
             // save the state of the current JEditorPane, as it's Document is about
             // to be replaced.
@@ -284,37 +300,59 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_SelezioneLingItemStateChanged
 
     private void TreeNavigatorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TreeNavigatorMouseClicked
+        
+        
+        path = TreeNavigator.getSelectionPath().toString().replaceAll("[\\[\\]]", "").replace(", ", "/");
+   
+        if(path.contains(".")){
+            
+            String result[] = path.split("/");
+            String returnValue = result[result.length - 1];
+            int i = returnValue.lastIndexOf(".");
+            int j = path.lastIndexOf("/");
+            path = path.substring(0, j);
+            System.out.println(path);
+            classExtention = returnValue.substring(i+1);
+            SelezioneLing.setSelectedItem(ABORT);
+            className = returnValue.substring(0, i);
+            EditorPannel.setContentType("text/"+classExtention);
+            SelezioneLing.setSelectedItem("text/"+classExtention);
+     
+            
+            try {
 
-        try {
-       
-            loadFile(TreeNavigator.getSelectionPath().toString().replaceAll("[\\[\\]]", "").replace(", ", "\\"));
-            
-            
-        } catch (IOException ex) {
-            ex.printStackTrace();
+                loadFile(TreeNavigator.getSelectionPath().toString().replaceAll("[\\[\\]]", "").replace(", ", "\\"));
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }//GEN-LAST:event_TreeNavigatorMouseClicked
 
     private void SaveMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveMenuActionPerformed
        
-        JFileChooser fc = new JFileChooser(workspace);
+        JFileChooser fc;
+        if(path == null){
+           fc = new JFileChooser(workspace);
+           fc.setSelectedFile(new File(workspace+"\\"+className+"."+classExtention));
+        }
+        else{
+            
+            fc = new JFileChooser(path);
+            fc.setSelectedFile(new File(path+"\\"+className+"."+classExtention));
+        }
+      
          int returnVal = fc.showSaveDialog(Frame.this);
-                 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
-             try {
-                 File file = fc.getSelectedFile();
-                 className = fc.getName(file);
-                 FileWriter out = new FileWriter(new File(workspace, className+"."+classExtention));
-                  out.write(EditorPannel.getText());
-                  out.close();
-        } catch (IOException ex) {
-            Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
-        } // 
-           }
-       /* FileWriter out;
-       / */
-
-        // TODO add your handling code here:
+            try {
+                File file = fc.getSelectedFile();
+                FileWriter out = new FileWriter(new File(fc.getCurrentDirectory(), className+"."+classExtention));
+                out.write(EditorPannel.getText());
+                out.close();
+           } catch (IOException ex) {
+               ex.printStackTrace();
+           } 
+        }
     }//GEN-LAST:event_SaveMenuActionPerformed
 
     private void ChangeWorkspaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChangeWorkspaceButtonActionPerformed
@@ -333,32 +371,32 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_ChangeWorkspaceButtonMouseClicked
 
     private void ChangeWorkspaceMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChangeWorkspaceMenuActionPerformed
-           final JFileChooser fc = new JFileChooser(workspace);
-         fc.setFileSelectionMode(1);
-         int returnVal = fc.showOpenDialog(this);
-         if (returnVal == JFileChooser.APPROVE_OPTION) {                    
-             workspace = fc.getSelectedFile().getAbsolutePath();
-             TreeNavigator.setModel(new FileSystemModel(new File(workspace)));
-             System.out.println(workspace);
+        final JFileChooser fc = new JFileChooser(workspace);
+        fc.setFileSelectionMode(1);
+        int returnVal = fc.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {                    
+            workspace = fc.getSelectedFile().getAbsolutePath();
+            TreeNavigator.setModel(new FileSystemModel(new File(workspace)));
+            System.out.println(workspace);
         }
     }//GEN-LAST:event_ChangeWorkspaceMenuActionPerformed
 
     private void loadFile(String filename) throws IOException {
         // This will load a file:
-        // jEdtTest.read(new FileInputStream(filename), null);
+        EditorPannel.read(new FileInputStream(filename), null);
 
         // ... however, the default read() will trigger a call to insertString() for each line
         // of the document which again will a call to parse(), making the UI freeze for large files.
         // Therefore, for large texts, its best to create a new document and insert the data in
         // a single operation:
-        Document doc = EditorPannel.getEditorKit().createDefaultDocument();
+        /*Document doc = EditorPannel.getEditorKit().createDefaultDocument();
         String str = new String(Files.readAllBytes(Paths.get(filename)));
         try {
             doc.insertString(0, str, null);
         } catch (BadLocationException ex) {
             throw new IOException(ex); // Should never happen
         }
-        EditorPannel.setDocument(doc);
+        EditorPannel.setDocument(doc);*/
     }
 
     /**
@@ -387,6 +425,7 @@ public class Frame extends javax.swing.JFrame {
 
     private String workspace = "C:\\Users\\Rum\\workspace\\INGSW";
     private String className;
+    private String path;
     private String classExtention = "java";
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

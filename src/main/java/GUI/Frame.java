@@ -36,13 +36,13 @@ public class Frame extends javax.swing.JFrame {
     public Frame() {
         initComponents();
 
-        jEditorPanel.setEditorKit(new JavaSyntaxKit());
+        EditorPannel.setEditorKit(new JavaSyntaxKit());
         DefaultSyntaxKit.initKit();
 
-        jEditorPanel.setContentType("text/java");
-        jComboBox2.setSelectedItem("text/java");
+        EditorPannel.setContentType("text/java");
+        SelezioneLing.setSelectedItem("text/java");
      
-        new CaretMonitor(jEditorPanel, jLabel1);
+        new CaretMonitor(EditorPannel, IndiceRigaDoc);
         
         try {
             // Try to load a relatively big Java file
@@ -65,16 +65,16 @@ public class Frame extends javax.swing.JFrame {
         LoadButton = new javax.swing.JButton();
         ChangeWorkspaceButton = new javax.swing.JButton();
         jSplitPane2 = new javax.swing.JSplitPane();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTree = new javax.swing.JTree();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jEditorPanel = new javax.swing.JEditorPane();
-        jLabel1 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
-        jLabel2 = new javax.swing.JLabel();
+        ScrollTree = new javax.swing.JScrollPane();
+        TreeNavigator = new javax.swing.JTree();
+        EditorScroll = new javax.swing.JScrollPane();
+        EditorPannel = new javax.swing.JEditorPane();
+        IndiceRigaDoc = new javax.swing.JLabel();
+        SelezioneLing = new javax.swing.JComboBox();
+        SelLingLabel = new javax.swing.JLabel();
         MenuBar = new javax.swing.JMenuBar();
         FileMenu = new javax.swing.JMenu();
-        SaveAsMenu = new javax.swing.JMenuItem();
+        SaveMenu = new javax.swing.JMenuItem();
         LoadFileMenu = new javax.swing.JMenuItem();
         ChangeWorkspaceMenu = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
@@ -113,40 +113,40 @@ public class Frame extends javax.swing.JFrame {
         jSplitPane2.setDividerLocation(200);
         jSplitPane2.setDividerSize(10);
 
-        jTree.setModel(new FileSystemModel(new File(workspace)));
-        jTree.addMouseListener(new java.awt.event.MouseAdapter() {
+        TreeNavigator.setModel(new FileSystemModel(new File(workspace)));
+        TreeNavigator.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTreeMouseClicked(evt);
+                TreeNavigatorMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(jTree);
+        ScrollTree.setViewportView(TreeNavigator);
 
-        jSplitPane2.setLeftComponent(jScrollPane3);
+        jSplitPane2.setLeftComponent(ScrollTree);
 
-        jScrollPane2.setViewportView(jEditorPanel);
+        EditorScroll.setViewportView(EditorPannel);
 
-        jSplitPane2.setRightComponent(jScrollPane2);
+        jSplitPane2.setRightComponent(EditorScroll);
 
-        jLabel1.setText("Current Position");
+        IndiceRigaDoc.setText("Current Position");
 
-        jComboBox2.setModel(new DefaultComboBoxModel(DefaultSyntaxKit.getContentTypes()));
-        jComboBox2.addItemListener(new java.awt.event.ItemListener() {
+        SelezioneLing.setModel(new DefaultComboBoxModel(DefaultSyntaxKit.getContentTypes()));
+        SelezioneLing.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBox2ItemStateChanged(evt);
+                SelezioneLingItemStateChanged(evt);
             }
         });
 
-        jLabel2.setText("Select Lenguage: ");
+        SelLingLabel.setText("Select Lenguage: ");
 
         FileMenu.setText("File");
 
-        SaveAsMenu.setText("Save File As");
-        SaveAsMenu.addActionListener(new java.awt.event.ActionListener() {
+        SaveMenu.setText("Save File As");
+        SaveMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SaveAsMenuActionPerformed(evt);
+                SaveMenuActionPerformed(evt);
             }
         });
-        FileMenu.add(SaveAsMenu);
+        FileMenu.add(SaveMenu);
 
         LoadFileMenu.setText("Load File");
         LoadFileMenu.addActionListener(new java.awt.event.ActionListener() {
@@ -180,11 +180,11 @@ public class Frame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSplitPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(SelLingLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(SelezioneLing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 585, Short.MAX_VALUE)
-                        .addComponent(jLabel1))
+                        .addComponent(IndiceRigaDoc))
                     .addComponent(Toolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -197,9 +197,9 @@ public class Frame extends javax.swing.JFrame {
                 .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(SelLingLabel)
+                    .addComponent(SelezioneLing, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IndiceRigaDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15))
         );
 
@@ -236,28 +236,28 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_LoadFileMenuActionPerformed
 
 
-    private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
+    private void SelezioneLingItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_SelezioneLingItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-            String lang = jComboBox2.getSelectedItem().toString();
+            String lang = SelezioneLing.getSelectedItem().toString();
             classExtention = lang.substring(5);
             if("python".equals(classExtention)) 
                 classExtention = "py";
             System.out.println(classExtention);
             // save the state of the current JEditorPane, as it's Document is about
             // to be replaced.
-            String oldText = jEditorPanel.getText();
+            String oldText = EditorPannel.getText();
 
             // install a new DefaultSyntaxKit on the JEditorPane for the requested language.
             
-            jEditorPanel.setContentType(lang);
+            EditorPannel.setContentType(lang);
             
             // Recreate the Toolbar
             Toolbar.removeAll();
-            EditorKit kit = jEditorPanel.getEditorKit();
+            EditorKit kit = EditorPannel.getEditorKit();
             
             if (kit instanceof DefaultSyntaxKit) {
                 DefaultSyntaxKit defaultSyntaxKit = (DefaultSyntaxKit) kit;
-                defaultSyntaxKit.addToolBarActions(jEditorPanel, Toolbar);
+                defaultSyntaxKit.addToolBarActions(EditorPannel, Toolbar);
             }
             Toolbar.add(LoadButton);
             Toolbar.add(ChangeWorkspaceButton);
@@ -273,29 +273,29 @@ public class Frame extends javax.swing.JFrame {
                 // a single operation:
                 Document doc = kit.createDefaultDocument();
                 doc.insertString(0, oldText, null);
-                jEditorPanel.setDocument(doc);
+                EditorPannel.setDocument(doc);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
-        jEditorPanel.requestFocusInWindow();
+        EditorPannel.requestFocusInWindow();
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ItemStateChanged
+    }//GEN-LAST:event_SelezioneLingItemStateChanged
 
-    private void jTreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTreeMouseClicked
+    private void TreeNavigatorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TreeNavigatorMouseClicked
 
         try {
        
-            loadFile(jTree.getSelectionPath().toString().replaceAll("[\\[\\]]", "").replace(", ", "\\"));
+            loadFile(TreeNavigator.getSelectionPath().toString().replaceAll("[\\[\\]]", "").replace(", ", "\\"));
             
             
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-    }//GEN-LAST:event_jTreeMouseClicked
+    }//GEN-LAST:event_TreeNavigatorMouseClicked
 
-    private void SaveAsMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveAsMenuActionPerformed
+    private void SaveMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveMenuActionPerformed
        
         JFileChooser fc = new JFileChooser(workspace);
          int returnVal = fc.showSaveDialog(Frame.this);
@@ -305,7 +305,7 @@ public class Frame extends javax.swing.JFrame {
                  File file = fc.getSelectedFile();
                  className = fc.getName(file);
                  FileWriter out = new FileWriter(new File(workspace, className+"."+classExtention));
-                  out.write(jEditorPanel.getText());
+                  out.write(EditorPannel.getText());
                   out.close();
         } catch (IOException ex) {
             Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
@@ -315,7 +315,7 @@ public class Frame extends javax.swing.JFrame {
        / */
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_SaveAsMenuActionPerformed
+    }//GEN-LAST:event_SaveMenuActionPerformed
 
     private void ChangeWorkspaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChangeWorkspaceButtonActionPerformed
         // TODO add your handling code here:
@@ -327,7 +327,7 @@ public class Frame extends javax.swing.JFrame {
          int returnVal = fc.showOpenDialog(this);
          if (returnVal == JFileChooser.APPROVE_OPTION) {                    
              workspace = fc.getSelectedFile().getAbsolutePath();
-             jTree.setModel(new FileSystemModel(new File(workspace)));
+             TreeNavigator.setModel(new FileSystemModel(new File(workspace)));
              System.out.println(workspace);
         }
     }//GEN-LAST:event_ChangeWorkspaceButtonMouseClicked
@@ -338,7 +338,7 @@ public class Frame extends javax.swing.JFrame {
          int returnVal = fc.showOpenDialog(this);
          if (returnVal == JFileChooser.APPROVE_OPTION) {                    
              workspace = fc.getSelectedFile().getAbsolutePath();
-             jTree.setModel(new FileSystemModel(new File(workspace)));
+             TreeNavigator.setModel(new FileSystemModel(new File(workspace)));
              System.out.println(workspace);
         }
     }//GEN-LAST:event_ChangeWorkspaceMenuActionPerformed
@@ -351,14 +351,14 @@ public class Frame extends javax.swing.JFrame {
         // of the document which again will a call to parse(), making the UI freeze for large files.
         // Therefore, for large texts, its best to create a new document and insert the data in
         // a single operation:
-        Document doc = jEditorPanel.getEditorKit().createDefaultDocument();
+        Document doc = EditorPannel.getEditorKit().createDefaultDocument();
         String str = new String(Files.readAllBytes(Paths.get(filename)));
         try {
             doc.insertString(0, str, null);
         } catch (BadLocationException ex) {
             throw new IOException(ex); // Should never happen
         }
-        jEditorPanel.setDocument(doc);
+        EditorPannel.setDocument(doc);
     }
 
     /**
@@ -392,20 +392,20 @@ public class Frame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ChangeWorkspaceButton;
     private javax.swing.JMenuItem ChangeWorkspaceMenu;
+    private javax.swing.JEditorPane EditorPannel;
+    private javax.swing.JScrollPane EditorScroll;
     private javax.swing.JMenu FileMenu;
+    private javax.swing.JLabel IndiceRigaDoc;
     private javax.swing.JButton LoadButton;
     private javax.swing.JMenuItem LoadFileMenu;
     private javax.swing.JMenuBar MenuBar;
-    private javax.swing.JMenuItem SaveAsMenu;
+    private javax.swing.JMenuItem SaveMenu;
+    private javax.swing.JScrollPane ScrollTree;
+    private javax.swing.JLabel SelLingLabel;
+    private javax.swing.JComboBox<String> SelezioneLing;
     private javax.swing.JToolBar Toolbar;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JEditorPane jEditorPanel;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JTree TreeNavigator;
     private javax.swing.JMenu jMenu4;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSplitPane jSplitPane2;
-    private javax.swing.JTree jTree;
     // End of variables declaration//GEN-END:variables
 }

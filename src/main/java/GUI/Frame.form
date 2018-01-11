@@ -166,7 +166,7 @@
                       <EmptySpace pref="585" max="32767" attributes="0"/>
                       <Component id="IndiceRigaDoc" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="Toolbar" alignment="0" min="-2" pref="645" max="-2" attributes="0"/>
+                  <Component id="Toolbar" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
@@ -178,11 +178,11 @@
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="Toolbar" min="-2" pref="25" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-              <Component id="SplitPanel" pref="522" max="32767" attributes="0"/>
-              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+              <Component id="SplitPanel" pref="509" max="32767" attributes="0"/>
+              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="SelLingLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="SelezioneLing" alignment="3" min="-2" pref="14" max="-2" attributes="0"/>
+                  <Component id="SelezioneLing" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="IndiceRigaDoc" alignment="3" min="-2" pref="14" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
@@ -314,6 +314,14 @@
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
             <Component class="javax.swing.JEditorPane" name="EditorPannel">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="null"/>
+                </Property>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[300, 14]"/>
+                </Property>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

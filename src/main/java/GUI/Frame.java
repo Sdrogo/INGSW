@@ -33,10 +33,7 @@ public class Frame extends javax.swing.JFrame {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         EditorPannel.setEditorKit(new JavaSyntaxKit());
         DefaultSyntaxKit.initKit();
-
-        EditorPannel.setContentType("text/java");
-        SelezioneLing.setSelectedItem("text/java");
-     
+        setLenguageBox("java");
         new CaretMonitor(EditorPannel, IndiceRigaDoc);
         
         try {
@@ -239,6 +236,8 @@ public class Frame extends javax.swing.JFrame {
 
         SplitPanel.setLeftComponent(ScrollTree);
 
+        EditorPannel.setBorder(null);
+        EditorPannel.setMinimumSize(new java.awt.Dimension(300, 14));
         EditorScroll.setViewportView(EditorPannel);
 
         SplitPanel.setRightComponent(EditorScroll);
@@ -273,7 +272,7 @@ public class Frame extends javax.swing.JFrame {
                         .addComponent(SelezioneLing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 585, Short.MAX_VALUE)
                         .addComponent(IndiceRigaDoc))
-                    .addComponent(Toolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Toolbar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -282,11 +281,11 @@ public class Frame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(Toolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
-                .addComponent(SplitPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(SplitPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SelLingLabel)
-                    .addComponent(SelezioneLing, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SelezioneLing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(IndiceRigaDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15))
         );
@@ -306,10 +305,12 @@ public class Frame extends javax.swing.JFrame {
                 path = path.substring(0, j);
                 className = fc.getName(file);
                 int i =  fc.getSelectedFile().getPath().lastIndexOf(".");
-                classExtention = fc.getSelectedFile().getPath().substring(i+1);
-                EditorPannel.setContentType("text/"+classExtention);
-                SelezioneLing.setSelectedItem("text/"+classExtention);
+                
+                setLenguage(fc.getSelectedFile().getPath().substring(i+1));
+                setLenguageBox(fc.getSelectedFile().getPath().substring(i+1));
+                
                 loadFile(fc.getSelectedFile().getPath());
+            
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -322,13 +323,14 @@ public class Frame extends javax.swing.JFrame {
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             
             String lang = SelezioneLing.getSelectedItem().toString();
-            classExtention = lang.substring(5);
-        
-            if("python".equals(classExtention)) 
-                classExtention = "py";
-
+            
             String oldText = EditorPannel.getText();
+            
+            setLenguage(lang.substring(5));
+            setLenguageBox(lang.substring(5));
+        
             EditorPannel.setContentType(lang);
+            
             Toolbar.removeAll(); 
             Toolbar.add(NewFileButton);
             Toolbar.add(LoadButton);
@@ -343,10 +345,9 @@ public class Frame extends javax.swing.JFrame {
             }
             Toolbar.validate();
             try {
-                 EditorPannel.read(new StringReader(oldText), lang);
-         /*      Document doc = kit.createDefaultDocument();
+                 Document doc = kit.createDefaultDocument();
                 doc.insertString(0, oldText, null);
-                EditorPannel.setDocument(doc);*/
+                EditorPannel.setDocument(doc);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -368,12 +369,9 @@ public class Frame extends javax.swing.JFrame {
                 int j = path.lastIndexOf("/");
                 path = path.substring(0, j);
 
-                classExtention = returnValue.substring(i+1);
-                SelezioneLing.setSelectedItem(ABORT);
-                className = returnValue.substring(0, i);
-                EditorPannel.setContentType("text/"+classExtention);
-                SelezioneLing.setSelectedItem("text/"+classExtention);
-
+                setLenguage(returnValue.substring(i+1));
+                setLenguageBox(returnValue.substring(i+1));
+                   
                 loadFile(TreeNavigator.getSelectionPath().toString().replaceAll("[\\[\\]]", "").replace(", ", "\\"));
 
             } catch (IOException ex) {
@@ -393,13 +391,7 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_ChangeWorkspaceButtonActionPerformed
 
     private void ChangeWorkspaceButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ChangeWorkspaceButtonMouseClicked
-         final JFileChooser fc = new JFileChooser(workspace);
-         fc.setFileSelectionMode(1);
-         int returnVal = fc.showOpenDialog(this);
-         if (returnVal == JFileChooser.APPROVE_OPTION) {                    
-             workspace = fc.getSelectedFile().getAbsolutePath();
-             TreeNavigator.setModel(new FileSystemModel(new File(workspace)));
-        }
+
     }//GEN-LAST:event_ChangeWorkspaceButtonMouseClicked
 
     private void PathBrowseButtonDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PathBrowseButtonDialogActionPerformed
@@ -408,18 +400,20 @@ public class Frame extends javax.swing.JFrame {
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {                    
             PathDialog.setText(fc.getSelectedFile().getAbsolutePath());
-            
         }
-       // TODO add your handling code here:
     }//GEN-LAST:event_PathBrowseButtonDialogActionPerformed
 
     private void OkButtonDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OkButtonDialogActionPerformed
         EditorPannel.setDocument(EditorPannel.getEditorKit().createDefaultDocument());
         className = nameDialogTxt.getText();
-        // classExtention = ExtensionDialog.getSelectedItem().toString();
+        
+        setLenguage(ExtensionDialog.getSelectedItem().toString());
+        setLenguageBox(ExtensionDialog.getSelectedItem().toString());
+         
         path = PathDialog.getText();
         NewClassDialog.dispose();
         FileWriter out;
+        
         try {
             out = new FileWriter(new File(path, className+"."+classExtention)); 
             out.write(EditorPannel.getText());
@@ -429,12 +423,10 @@ public class Frame extends javax.swing.JFrame {
             Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-       // TODO add your handling code here:
     }//GEN-LAST:event_OkButtonDialogActionPerformed
 
     private void CancelButtonDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonDialogActionPerformed
         NewClassDialog.dispose();
-        // TODO add your handling code here:
     }//GEN-LAST:event_CancelButtonDialogActionPerformed
 
     private void NewFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewFileButtonActionPerformed
@@ -445,7 +437,7 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_NewFileButtonActionPerformed
 
     private void SelezioneLingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelezioneLingActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_SelezioneLingActionPerformed
 
     private void SaveAsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveAsButtonActionPerformed
@@ -486,37 +478,77 @@ public class Frame extends javax.swing.JFrame {
     private void loadFile(String filename) throws IOException {
         // This will load a file:
        // EditorPannel.read(new FileInputStream(filename), null);
-
-        // ... however, the default read() will trigger a call to insertString() for each line
-        // of the document which again will a call to parse(), making the UI freeze for large files.
-        // Therefore, for large texts, its best to create a new document and insert the data in
-        // a single operation:
         Document doc = EditorPannel.getEditorKit().createDefaultDocument();
         String str = new String(Files.readAllBytes(Paths.get(filename)));
         try {
             doc.insertString(0, str, null);
         } catch (BadLocationException ex) {
-            throw new IOException(ex); // Should never happen
+            throw new IOException(ex); 
         }
         EditorPannel.setDocument(doc);
     }
 
+    public void setLenguage(String s){
+        
+        System.out.println(s);
+
+        if(s.equals("bash")){
+            classExtention = "sh";
+            
+            return;
+        }
+        if(s.equals("clojure")){
+            classExtention = "clj";
+            return;
+        }
+        if(s.equals("dosbatch")){
+            classExtention = "dat";
+            return;
+        }
+        if(s.equals("javascript")){
+            classExtention = "js";
+            return;   
+        }
+        if(s.equals("plain")){
+            classExtention = "txt";
+            return;
+        }
+        if(s.equals("python")){
+            classExtention = "py";
+            return;
+        }
+        if(s.equals("ruby")){
+            classExtention = "rb";
+        }
+        else {
+            classExtention = s;
+        }
+        
+    }
+
+    public void setLenguageBox(String s){
+        
+        EditorPannel.setContentType("text/"+s);
+        SelezioneLing.setSelectedItem("text/"+s);
+    }
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
         try {
             UIManager.setLookAndFeel(
                     UIManager.getSystemLookAndFeelClassName());
-        } catch (UnsupportedLookAndFeelException e) {
-            // handle exception
-        } catch (ClassNotFoundException e) {
-            // handle exception
-        } catch (InstantiationException e) {
-            // handle exception
-        } catch (IllegalAccessException e) {
-            // handle exception
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
         }
+       
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

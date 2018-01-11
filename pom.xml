@@ -47,7 +47,7 @@
           </excludes>
           <archive>
             <manifest>
-              <mainClass>jsyntaxpane.SyntaxTester</mainClass>
+              <mainClass>GUI.Frame</mainClass>
               <packageName>jsyntaxpane</packageName>
               <addClasspath>true</addClasspath>
               <classpathPrefix />

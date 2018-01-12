@@ -1,20 +1,18 @@
-
 package GUI;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ItemEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.text.BadLocationException;
@@ -26,23 +24,27 @@ import jsyntaxpane.syntaxkits.JavaSyntaxKit;
 
 public class Frame extends javax.swing.JFrame {
 
+    /////////////////////////////////INIT//////////////////////
+    
     public Frame() {
-        
-        initComponents();
 
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        initComponents();
+        EditorPannel.setSelectedTextColor(Color.black);
+        // repaint();
         EditorPannel.setEditorKit(new JavaSyntaxKit());
         DefaultSyntaxKit.initKit();
         setLenguageBox("java");
         new CaretMonitor(EditorPannel, IndiceRigaDoc);
-        
+
         try {
-           
+
             loadFile("./target/generated-sources/jflex/jsyntaxpane/lexers/ClojureLexer.java");
         } catch (IOException ex) {
-            
+
+            JOptionPane p = new JOptionPane("Documento di default non trovato");
         }
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -76,11 +78,9 @@ public class Frame extends javax.swing.JFrame {
 
         TypreDialogLabel.setText("Type :");
 
-        ExtensionDialog.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "java", "cpp", "py", "xml", "html" }));
+        ExtensionDialog.setModel(new javax.swing.DefaultComboBoxModel(new String[] { ".sh", ".c", ".cpp", ".clj", ".dat", ".groovy",".java",".js", ".jflex", ".lua", ".properties", ".py", ".rb", ".scala", ".sql", ".tal", ".xhtml", ".xml", ".xpath" }));
 
         PathDialogLabel.setText("Source fodler : ");
-
-        PathDialog.setText(workspace);
 
         PathBrowseButtonDialog.setText("Browse...");
         PathBrowseButtonDialog.addActionListener(new java.awt.event.ActionListener() {
@@ -211,11 +211,6 @@ public class Frame extends javax.swing.JFrame {
         ChangeWorkspaceButton.setFocusable(false);
         ChangeWorkspaceButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         ChangeWorkspaceButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        ChangeWorkspaceButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ChangeWorkspaceButtonMouseClicked(evt);
-            }
-        });
         ChangeWorkspaceButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ChangeWorkspaceButtonActionPerformed(evt);
@@ -224,7 +219,6 @@ public class Frame extends javax.swing.JFrame {
         Toolbar.add(ChangeWorkspaceButton);
 
         SplitPanel.setDividerLocation(200);
-        SplitPanel.setDividerSize(10);
 
         TreeNavigator.setModel(new FileSystemModel(new File(workspace)));
         TreeNavigator.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -248,11 +242,6 @@ public class Frame extends javax.swing.JFrame {
         SelezioneLing.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 SelezioneLingItemStateChanged(evt);
-            }
-        });
-        SelezioneLing.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SelezioneLingActionPerformed(evt);
             }
         });
 
@@ -293,8 +282,10 @@ public class Frame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    ////////////////////////////////LISTENER/////////////////////
+    
     private void LoadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadButtonActionPerformed
-        
+
         final JFileChooser fc = new JFileChooser(workspace);
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -304,52 +295,53 @@ public class Frame extends javax.swing.JFrame {
                 int j = path.lastIndexOf("\\");
                 path = path.substring(0, j);
                 className = fc.getName(file);
-                int i =  fc.getSelectedFile().getPath().lastIndexOf(".");
-                
-                setLenguage(fc.getSelectedFile().getPath().substring(i+1));
-                setLenguageBox(fc.getSelectedFile().getPath().substring(i+1));
-                
+                int i = fc.getSelectedFile().getPath().lastIndexOf(".");
+
+                setLenguage(fc.getSelectedFile().getPath().substring(i + 1));
+                setLenguageBox(fc.getSelectedFile().getPath().substring(i + 1));
+
                 loadFile(fc.getSelectedFile().getPath());
-            
+
             } catch (IOException ex) {
-                ex.printStackTrace();
+                
+            JOptionPane p = new JOptionPane("errore nel caricamento del file");
             }
         }
     }//GEN-LAST:event_LoadButtonActionPerformed
 
 
     private void SelezioneLingItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_SelezioneLingItemStateChanged
-       
+
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-            
+
             String lang = SelezioneLing.getSelectedItem().toString();
-            
             String oldText = EditorPannel.getText();
-            
+
             setLenguage(lang.substring(5));
             setLenguageBox(lang.substring(5));
-        
+
             EditorPannel.setContentType(lang);
             
-            Toolbar.removeAll(); 
+            Toolbar.removeAll();
             Toolbar.add(NewFileButton);
             Toolbar.add(LoadButton);
             Toolbar.add(SaveButton);
             Toolbar.add(SaveAsButton);
             Toolbar.add(ChangeWorkspaceButton);
             EditorKit kit = EditorPannel.getEditorKit();
-            
+
             if (kit instanceof DefaultSyntaxKit) {
                 DefaultSyntaxKit defaultSyntaxKit = (DefaultSyntaxKit) kit;
                 defaultSyntaxKit.addToolBarActions(EditorPannel, Toolbar);
             }
             Toolbar.validate();
             try {
-                 Document doc = kit.createDefaultDocument();
+                Document doc = kit.createDefaultDocument();
                 doc.insertString(0, oldText, null);
                 EditorPannel.setDocument(doc);
             } catch (Exception ex) {
-                ex.printStackTrace();
+                
+            JOptionPane p = new JOptionPane("errore nel cambio di linguaggio");
             }
         }
         EditorPannel.requestFocusInWindow();
@@ -357,11 +349,10 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_SelezioneLingItemStateChanged
 
     private void TreeNavigatorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TreeNavigatorMouseClicked
-        
+
         path = TreeNavigator.getSelectionPath().toString().replaceAll("[\\[\\]]", "").replace(", ", "/");
-   
-        System.out.println(path);
-        if(path.contains(".")){
+
+        if (path.contains(".")) {
             try {
                 String result[] = path.split("/");
                 String returnValue = result[result.length - 1];
@@ -369,60 +360,56 @@ public class Frame extends javax.swing.JFrame {
                 int j = path.lastIndexOf("/");
                 path = path.substring(0, j);
 
-                setLenguage(returnValue.substring(i+1));
-                setLenguageBox(returnValue.substring(i+1));
-                   
+                setLenguage(returnValue.substring(i + 1));
+                setLenguageBox(returnValue.substring(i + 1));
+
                 loadFile(TreeNavigator.getSelectionPath().toString().replaceAll("[\\[\\]]", "").replace(", ", "\\"));
 
             } catch (IOException ex) {
-                ex.printStackTrace();
+                JOptionPane p = new JOptionPane("errore nel caricamento del file tramite navigator");
             }
         }
     }//GEN-LAST:event_TreeNavigatorMouseClicked
 
     private void ChangeWorkspaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChangeWorkspaceButtonActionPerformed
         final JFileChooser fc = new JFileChooser(workspace);
-         fc.setFileSelectionMode(1);
-         int returnVal = fc.showOpenDialog(this);
-         if (returnVal == JFileChooser.APPROVE_OPTION) {                    
-             workspace = fc.getSelectedFile().getAbsolutePath();
-             TreeNavigator.setModel(new FileSystemModel(new File(workspace)));
+        fc.setFileSelectionMode(1);
+        int returnVal = fc.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            workspace = fc.getSelectedFile().getAbsolutePath();
+            TreeNavigator.setModel(new FileSystemModel(new File(workspace)));
         }
     }//GEN-LAST:event_ChangeWorkspaceButtonActionPerformed
-
-    private void ChangeWorkspaceButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ChangeWorkspaceButtonMouseClicked
-
-    }//GEN-LAST:event_ChangeWorkspaceButtonMouseClicked
 
     private void PathBrowseButtonDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PathBrowseButtonDialogActionPerformed
         final JFileChooser fc = new JFileChooser(workspace);
         fc.setFileSelectionMode(1);
         int returnVal = fc.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {                    
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
             PathDialog.setText(fc.getSelectedFile().getAbsolutePath());
         }
     }//GEN-LAST:event_PathBrowseButtonDialogActionPerformed
 
     private void OkButtonDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OkButtonDialogActionPerformed
+
         EditorPannel.setDocument(EditorPannel.getEditorKit().createDefaultDocument());
         className = nameDialogTxt.getText();
-        
+
         setLenguage(ExtensionDialog.getSelectedItem().toString());
         setLenguageBox(ExtensionDialog.getSelectedItem().toString());
-         
+
         path = PathDialog.getText();
         NewClassDialog.dispose();
         FileWriter out;
-        
+
         try {
-            out = new FileWriter(new File(path, className+"."+classExtention)); 
+            out = new FileWriter(new File(path, className + classExtention));
             out.write(EditorPannel.getText());
             out.close();
-            TreeNavigator.setModel(new FileSystemModel(new File(workspace))); 
+            TreeNavigator.setModel(new FileSystemModel(new File(workspace)));
         } catch (IOException ex) {
-            Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane p = new JOptionPane("errore nella creazione del file");
         }
-        
     }//GEN-LAST:event_OkButtonDialogActionPerformed
 
     private void CancelButtonDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonDialogActionPerformed
@@ -430,126 +417,124 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_CancelButtonDialogActionPerformed
 
     private void NewFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewFileButtonActionPerformed
-      
-        NewClassDialog.setVisible(true);
-        NewClassDialog.setSize(400,180);             
-        
-    }//GEN-LAST:event_NewFileButtonActionPerformed
 
-    private void SelezioneLingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelezioneLingActionPerformed
-        
-    }//GEN-LAST:event_SelezioneLingActionPerformed
+        ExtensionDialog.setSelectedItem(classExtention);
+        PathDialog.setText(path);
+        NewClassDialog.setVisible(true);
+        NewClassDialog.setSize(450, 220);
+        NewClassDialog.setLocationRelativeTo(null);
+    }//GEN-LAST:event_NewFileButtonActionPerformed
 
     private void SaveAsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveAsButtonActionPerformed
         JFileChooser fc;
-        if(path == null){
-           fc = new JFileChooser(workspace);
-           fc.setSelectedFile(new File(workspace+"\\"+className+"."+classExtention));
-        }
-        else{
-            
+        if (path == null) {
+            fc = new JFileChooser(workspace);
+            fc.setSelectedFile(new File(workspace + "\\" + className + classExtention));
+        } else {
+
             fc = new JFileChooser(path);
-            fc.setSelectedFile(new File(path+"\\"+className+"."+classExtention));
+            fc.setSelectedFile(new File(path + "\\" + className +classExtention));
         }
-      
-         int returnVal = fc.showSaveDialog(Frame.this);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
+
+        int returnVal = fc.showSaveDialog(Frame.this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 File file = fc.getSelectedFile();
-                FileWriter out = new FileWriter(new File(fc.getCurrentDirectory(), className+"."+classExtention));
+                FileWriter out = new FileWriter(new File(fc.getCurrentDirectory(), className + classExtention));
                 out.write(EditorPannel.getText());
                 out.close();
-           } catch (IOException ex) {
-               ex.printStackTrace();
-           } 
+            } catch (IOException ex) {
+                JOptionPane p = new JOptionPane("errore nel salvataggio con nome del file");
+            }
         }
     }//GEN-LAST:event_SaveAsButtonActionPerformed
 
     private void SaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveButtonActionPerformed
-          try {
-                FileWriter out = new FileWriter(new File(path, className+"."+classExtention));
-                out.write(EditorPannel.getText());
-                out.close();
-           } catch (IOException ex) {
-               ex.printStackTrace();
-           } 
+        try {
+            FileWriter out = new FileWriter(new File(path, className + classExtention));
+            out.write(EditorPannel.getText());
+            out.close();
+        } catch (IOException ex) {
+            JOptionPane p = new JOptionPane("errore nel salvataggio del file");
+        }
     }//GEN-LAST:event_SaveButtonActionPerformed
- 
+
+    ////////////////////////METODI DI UTILITA'//////////////////////////////////
+    
     private void loadFile(String filename) throws IOException {
-        // This will load a file:
-       // EditorPannel.read(new FileInputStream(filename), null);
         Document doc = EditorPannel.getEditorKit().createDefaultDocument();
         String str = new String(Files.readAllBytes(Paths.get(filename)));
         try {
             doc.insertString(0, str, null);
         } catch (BadLocationException ex) {
-            throw new IOException(ex); 
+            throw new IOException(ex);
         }
         EditorPannel.setDocument(doc);
     }
 
-    public void setLenguage(String s){
-        
+    public void setLenguage(String s) {
+
         System.out.println(s);
 
-        if(s.equals("bash")){
-            classExtention = "sh";
-            
+        if (s.equals("bash")) {
+            classExtention = ".sh";
             return;
         }
-        if(s.equals("clojure")){
-            classExtention = "clj";
+        if (s.equals("clojure")) {
+            classExtention = ".clj";
             return;
         }
-        if(s.equals("dosbatch")){
-            classExtention = "dat";
+        if (s.equals("dosbatch")) {
+            classExtention = ".dat";
             return;
         }
-        if(s.equals("javascript")){
-            classExtention = "js";
-            return;   
-        }
-        if(s.equals("plain")){
-            classExtention = "txt";
+        if (s.equals("javascript")) {
+            classExtention = ".js";
             return;
         }
-        if(s.equals("python")){
-            classExtention = "py";
+        if (s.equals("plain")) {
+            classExtention = ".txt";
             return;
         }
-        if(s.equals("ruby")){
-            classExtention = "rb";
+        if (s.equals("python")) {
+            classExtention = ".py";
+            return;
         }
-        else {
-            classExtention = s;
-        }
-        
+        if (s.equals("ruby")) {
+            classExtention = ".rb";
+            return;
+        } 
+        classExtention = "."+s;
+      
     }
 
-    public void setLenguageBox(String s){
+    public void setLenguageBox(String s) {
+
         
-        EditorPannel.setContentType("text/"+s);
-        SelezioneLing.setSelectedItem("text/"+s);
+        EditorPannel.setContentType("text/" + s);
+        SelezioneLing.setSelectedItem("text/" + s);
+        ExtensionDialog.setSelectedItem("."+s);
+   
     }
-    /**
-     * @param args the command line arguments
-     */
+
+            ///////////////////MAIN/////////////////
+    
+    
     public static void main(String args[]) {
-        
+
         try {
             UIManager.setLookAndFeel(
                     UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane p = new JOptionPane("errore nel caricamento del look and feel");
         } catch (InstantiationException ex) {
-            Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane p = new JOptionPane("errore nel caricamento del look and feel");
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane p = new JOptionPane("errore nel caricamento del look and feel");
         } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane p = new JOptionPane("errore nel caricamento del look and feel");
         }
-       
-        /* Create and display the form */
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Frame().setVisible(true);
@@ -557,12 +542,14 @@ public class Frame extends javax.swing.JFrame {
         });
     }
 
-    private String workspace = "C:\\Users\\Rum\\workspace\\INGSW";
-    private String className;
-    private String path;
-    private String classExtention = "java";
-    private Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+    ///////////////////////////////DICHIARAZIONE OGGETTI/////////////////////////
     
+    private String workspace = "C:\\Users\\Rum\\workspace\\INGSW";
+    private String className = "NewDocument";
+    private String path = workspace;
+    private String classExtention = ".java";
+    private Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CancelButtonDialog;
     private javax.swing.JButton ChangeWorkspaceButton;

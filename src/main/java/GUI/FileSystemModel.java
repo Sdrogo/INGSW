@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package GUI;
 import java.io.File;
 import java.util.Iterator;
@@ -12,10 +8,6 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
-/**
- *
- * @author ProgrammingKnowledge
- */
 public class FileSystemModel implements TreeModel {
 
     private File root;
@@ -34,10 +26,6 @@ public class FileSystemModel implements TreeModel {
     public Object getChild(Object parent, int index) {
         File directory = (File) parent;
         String[] children = directory.list();
- /*       for (int j = 0; j< children.length; j++ ){
-            System.out.println(children[j]);
-        }       */
-        
         return new FileSystemModel.TreeFile(directory, children[index]);
     }
 

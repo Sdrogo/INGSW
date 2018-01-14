@@ -11,10 +11,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.EditorKit;
@@ -78,7 +78,7 @@ public class Frame extends javax.swing.JFrame {
 
         TypreDialogLabel.setText("Type :");
 
-        ExtensionDialog.setModel(new javax.swing.DefaultComboBoxModel(new String[] { ".sh", ".c", ".cpp", ".clj", ".dat", ".groovy",".java",".js", ".jflex", ".lua", ".properties", ".py", ".rb", ".scala", ".sql", ".tal", ".xhtml", ".xml", ".xpath" }));
+        ExtensionDialog.setModel(new javax.swing.DefaultComboBoxModel(new String[] { ".sh", ".c", ".cpp", ".h", ".clj", ".dat", ".groovy",".java",".js", ".jflex", ".lua", ".properties", ".py", ".rb", ".scala", ".sql", ".tal", ".xhtml", ".xml", ".xpath" }));
 
         PathDialogLabel.setText("Source fodler : ");
 
@@ -154,7 +154,6 @@ public class Frame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("JEdit - Progetto INGSW : Elia - Partenope");
-        setPreferredSize(dim);
 
         Toolbar.setFloatable(false);
 
@@ -221,9 +220,9 @@ public class Frame extends javax.swing.JFrame {
         SplitPanel.setDividerLocation(200);
 
         TreeNavigator.setModel(new FileSystemModel(new File(workspace)));
-        TreeNavigator.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TreeNavigatorMouseClicked(evt);
+        TreeNavigator.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                TreeNavigatorValueChanged(evt);
             }
         });
         ScrollTree.setViewportView(TreeNavigator);
@@ -287,6 +286,31 @@ public class Frame extends javax.swing.JFrame {
     private void LoadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadButtonActionPerformed
 
         final JFileChooser fc = new JFileChooser(workspace);
+        
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.sh","sh"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.c","c"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.cpp","cpp"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.h","h"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.clj","clj"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.dat","dat"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.groovy","groovy"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.java","java"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.js","javaScript"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.jflex","jflex"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.lua","lua"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.properties",".properties"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.py","pyton"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.rb","ruby"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.scala","scala"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.sql","sql"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.tal","tal"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.xhtml","xhtml"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.html","html"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.xml","xml"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.xpath","xpath"));
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        
+        
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
@@ -305,6 +329,7 @@ public class Frame extends javax.swing.JFrame {
             } catch (IOException ex) {
                 
             JOptionPane p = new JOptionPane("errore nel caricamento del file");
+            
             }
         }
     }//GEN-LAST:event_LoadButtonActionPerformed
@@ -347,29 +372,6 @@ public class Frame extends javax.swing.JFrame {
         EditorPannel.requestFocusInWindow();
 
     }//GEN-LAST:event_SelezioneLingItemStateChanged
-
-    private void TreeNavigatorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TreeNavigatorMouseClicked
-
-        path = TreeNavigator.getSelectionPath().toString().replaceAll("[\\[\\]]", "").replace(", ", "/");
-
-        if (path.contains(".")) {
-            try {
-                String result[] = path.split("/");
-                String returnValue = result[result.length - 1];
-                int i = returnValue.lastIndexOf(".");
-                int j = path.lastIndexOf("/");
-                path = path.substring(0, j);
-
-                setLenguage(returnValue.substring(i + 1));
-                setLenguageBox(returnValue.substring(i + 1));
-
-                loadFile(TreeNavigator.getSelectionPath().toString().replaceAll("[\\[\\]]", "").replace(", ", "\\"));
-
-            } catch (IOException ex) {
-                JOptionPane p = new JOptionPane("errore nel caricamento del file tramite navigator");
-            }
-        }
-    }//GEN-LAST:event_TreeNavigatorMouseClicked
 
     private void ChangeWorkspaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChangeWorkspaceButtonActionPerformed
         final JFileChooser fc = new JFileChooser(workspace);
@@ -427,6 +429,7 @@ public class Frame extends javax.swing.JFrame {
 
     private void SaveAsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveAsButtonActionPerformed
         JFileChooser fc;
+        
         if (path == null) {
             fc = new JFileChooser(workspace);
             fc.setSelectedFile(new File(workspace + "\\" + className + classExtention));
@@ -436,16 +439,42 @@ public class Frame extends javax.swing.JFrame {
             fc.setSelectedFile(new File(path + "\\" + className +classExtention));
         }
 
+        
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.sh","sh"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.c","c"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.cpp","cpp"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.h","h"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.clj","clj"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.dat","dat"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.groovy","groovy"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.java","java"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.js","javaScript"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.jflex","jflex"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.lua","lua"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.properties",".properties"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.py","pyton"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.rb","ruby"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.scala","scala"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.sql","sql"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.tal","tal"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.xhtml","xhtml"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.html","html"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.xml","xml"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.xpath","xpath"));
+        
+        
         int returnVal = fc.showSaveDialog(Frame.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 File file = fc.getSelectedFile();
-                FileWriter out = new FileWriter(new File(fc.getCurrentDirectory(), className + classExtention));
+                FileWriter out = new FileWriter(new File(fc.getCurrentDirectory(), fc.getName(file)));
                 out.write(EditorPannel.getText());
                 out.close();
+                
             } catch (IOException ex) {
                 JOptionPane p = new JOptionPane("errore nel salvataggio con nome del file");
             }
+            TreeNavigator.setModel(new FileSystemModel(new File(workspace)));
         }
     }//GEN-LAST:event_SaveAsButtonActionPerformed
 
@@ -459,6 +488,30 @@ public class Frame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_SaveButtonActionPerformed
 
+    private void TreeNavigatorValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_TreeNavigatorValueChanged
+       
+      path = TreeNavigator.getSelectionPath().toString().replaceAll("[\\[\\]]", "").replace(", ", "/");
+
+        if (path.contains(".")) {
+            try {
+                String result[] = path.split("/");
+                String returnValue = result[result.length - 1];
+                int i = returnValue.lastIndexOf(".");
+                int j = path.lastIndexOf("/");
+                path = path.substring(0, j);
+
+                setLenguage(returnValue.substring(i + 1));
+                setLenguageBox(returnValue.substring(i + 1));
+
+                loadFile(TreeNavigator.getSelectionPath().toString().replaceAll("[\\[\\]]", "").replace(", ", "\\"));
+
+            } catch (IOException ex) {
+                JOptionPane p = new JOptionPane("errore nel caricamento del file tramite navigator");
+            }
+        }
+    }//GEN-LAST:event_TreeNavigatorValueChanged
+
+    
     ////////////////////////METODI DI UTILITA'//////////////////////////////////
     
     private void loadFile(String filename) throws IOException {

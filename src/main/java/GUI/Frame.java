@@ -539,8 +539,7 @@ public class Frame extends javax.swing.JFrame {
         fc.addChoosableFileFilter(new FileNameExtensionFilter("*.html","html"));
         fc.addChoosableFileFilter(new FileNameExtensionFilter("*.xml","xml"));
         fc.addChoosableFileFilter(new FileNameExtensionFilter("*.xpath","xpath"));
-        
-        
+            
         int returnVal = fc.showSaveDialog(Frame.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             saveFile();
@@ -549,13 +548,10 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_SaveAsButtonActionPerformed
 
     private void SaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveButtonActionPerformed
-        
         saveFile();
-         
     }//GEN-LAST:event_SaveButtonActionPerformed
 
     private void TreeNavigatorValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_TreeNavigatorValueChanged
-      
       
         if (TreeNavigator.getSelectionPath().toString().contains(".")) {
             
@@ -564,9 +560,7 @@ public class Frame extends javax.swing.JFrame {
            }catch(Exception e){
            JOptionPane p = new JOptionPane("errore nel caricare il path "+oldPath);
            }
-           
             path = TreeNavigator.getSelectionPath().toString().replaceAll("[\\[\\]]", "").replace(", ", "/");
-            System.err.println("old : "+oldPath+"\n new Path : "+path);
             if(changed){
                 SaveDialogNavigator.setVisible(true);
                 SaveDialogNavigator.setSize(320, 120);
@@ -630,8 +624,6 @@ public class Frame extends javax.swing.JFrame {
     private void saveFileNav(String path){
         
          try {
-             System.out.println("GUI.Frame.saveFileNav()");
-             System.out.println(path+className + classExtention);
             FileWriter out = new FileWriter(new File(path, className + classExtention));
             out.write(EditorPannel.getText());
             out.close();
@@ -735,8 +727,6 @@ public class Frame extends javax.swing.JFrame {
     }
     
     public void setLenguage(String s) {
-
-        System.out.println(s);
 
         if (s.equals("bash")) {
             classExtention = ".sh";

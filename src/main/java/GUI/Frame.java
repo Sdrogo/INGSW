@@ -412,6 +412,7 @@ public class Frame extends javax.swing.JFrame {
             
         }
         else{
+            
             showFileChooseLoad();
         }
          
@@ -599,7 +600,8 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_SaveNavAnnullaActionPerformed
 
     private void SaveNavSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveNavSiActionPerformed
-
+       
+        saveFileNav(oldPath);
         SaveDialogNavigator.dispose();
         navigatorLoad();
 

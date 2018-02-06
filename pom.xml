@@ -4,7 +4,7 @@
   <groupId>JEditor_Elia_Partenope</groupId>
   <artifactId>JEditor_Elia_Partenope</artifactId>
   <packaging>jar</packaging>
-  <version>0.6</version>
+  <version>1.0</version>
   <name>JEditor</name>
   <url>https://github.com/nordfalk/jsyntaxpane</url>
 

@@ -22,29 +22,26 @@ import jsyntaxpane.DefaultSyntaxKit;
 import jsyntaxpane.actions.CaretMonitor;
 import jsyntaxpane.syntaxkits.JavaSyntaxKit;
 
-public class Frame extends javax.swing.JFrame {
-
+public final class Frame extends javax.swing.JFrame {
+    
     /////////////////////////////////INIT//////////////////////
     
     public Frame() {
-
-        initComponents();
-        EditorPannel.setSelectedTextColor(Color.black);
-        // repaint();
-        EditorPannel.setEditorKit(new JavaSyntaxKit());
-        DefaultSyntaxKit.initKit();
-        setLenguageBox("java");
-        new CaretMonitor(EditorPannel, IndiceRigaDoc);
-
-        try {
-            loadFile("./target/generated-sources/jflex/jsyntaxpane/lexers/ClojureLexer.java");
+        
+        initComponents();                                                       //inizializza i componenti del design netbeans
+        EditorPannel.setSelectedTextColor(Color.black);                         //seleziona il colore del testo
+        EditorPannel.setEditorKit(new JavaSyntaxKit());                         //implementa di default il linguaggio java
+        DefaultSyntaxKit.initKit();                                             //inizializza il kit sintattico
+        setLenguageBox("java");                                                  //setta il box di scelta linguaggio su java
+        CaretMonitor caretMonitor = new CaretMonitor(EditorPannel, IndiceRigaDoc); //monitora l'indice di riga e carattere del documento
+         try {
+            loadFile("./target/INGSW_README.java");
         } catch (IOException ex) {
 
             JOptionPane p = new JOptionPane("Documento di default non trovato");
         }
-        
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -162,16 +159,16 @@ public class Frame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        SaveNavSi.setText("Si");
+        SaveNavSi.setText("Yes");
         SaveNavSi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SaveNavSiActionPerformed(evt);
             }
         });
 
-        jLabel2.setText("Salvare le modifiche apportate al documento ?");
+        jLabel2.setText("Do you want to save the current Document?");
 
-        SaveNavAnnulla.setText("Annulla");
+        SaveNavAnnulla.setText("Cancel");
         SaveNavAnnulla.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SaveNavAnnullaActionPerformed(evt);
@@ -189,19 +186,21 @@ public class Frame extends javax.swing.JFrame {
         SaveDialogNavigator.getContentPane().setLayout(SaveDialogNavigatorLayout);
         SaveDialogNavigatorLayout.setHorizontalGroup(
             SaveDialogNavigatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(SaveDialogNavigatorLayout.createSequentialGroup()
-                .addGap(73, 73, 73)
-                .addComponent(SaveNavSi)
-                .addGap(18, 18, 18)
-                .addComponent(SaveNavNo)
-                .addGap(18, 18, 18)
-                .addComponent(SaveNavAnnulla)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SaveDialogNavigatorLayout.createSequentialGroup()
-                .addContainerGap(46, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(21, 21, 21))
+                .addContainerGap(45, Short.MAX_VALUE)
+                .addGroup(SaveDialogNavigatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addGroup(SaveDialogNavigatorLayout.createSequentialGroup()
+                        .addComponent(SaveNavSi)
+                        .addGap(18, 18, 18)
+                        .addComponent(SaveNavNo)
+                        .addGap(18, 18, 18)
+                        .addComponent(SaveNavAnnulla)))
+                .addGap(38, 38, 38))
         );
+
+        SaveDialogNavigatorLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {SaveNavAnnulla, SaveNavNo, SaveNavSi});
+
         SaveDialogNavigatorLayout.setVerticalGroup(
             SaveDialogNavigatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SaveDialogNavigatorLayout.createSequentialGroup()
@@ -215,7 +214,7 @@ public class Frame extends javax.swing.JFrame {
                 .addGap(14, 14, 14))
         );
 
-        siSaveDialogButton.setText("Si");
+        siSaveDialogButton.setText("Yes");
         siSaveDialogButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 siSaveDialogButtonActionPerformed(evt);
@@ -229,9 +228,9 @@ public class Frame extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Salvare le modifiche apportate al documento ?");
+        jLabel1.setText("Do you want to save the current Document?");
 
-        AnnullaSaveDialogButton.setText("Annulla");
+        AnnullaSaveDialogButton.setText("Cancel");
         AnnullaSaveDialogButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AnnullaSaveDialogButtonActionPerformed(evt);
@@ -242,21 +241,20 @@ public class Frame extends javax.swing.JFrame {
         SaveDialog.getContentPane().setLayout(SaveDialogLayout);
         SaveDialogLayout.setHorizontalGroup(
             SaveDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(SaveDialogLayout.createSequentialGroup()
-                .addGap(73, 73, 73)
-                .addComponent(siSaveDialogButton)
-                .addGap(18, 18, 18)
-                .addComponent(noSaveDialogButton)
-                .addGap(18, 18, 18)
-                .addComponent(AnnullaSaveDialogButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SaveDialogLayout.createSequentialGroup()
-                .addContainerGap(46, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(21, 21, 21))
+                .addContainerGap(47, Short.MAX_VALUE)
+                .addGroup(SaveDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(SaveDialogLayout.createSequentialGroup()
+                        .addComponent(siSaveDialogButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(noSaveDialogButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(AnnullaSaveDialogButton)))
+                .addGap(36, 36, 36))
         );
 
-        SaveDialogLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {noSaveDialogButton, siSaveDialogButton});
+        SaveDialogLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {AnnullaSaveDialogButton, noSaveDialogButton, siSaveDialogButton});
 
         SaveDialogLayout.setVerticalGroup(
             SaveDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,6 +271,7 @@ public class Frame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("JEdit - Progetto INGSW : Elia - Partenope");
+        setPreferredSize(dim);
 
         Toolbar.setFloatable(false);
 
@@ -399,126 +398,101 @@ public class Frame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     ////////////////////////////////LISTENER/////////////////////
     
     private void LoadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadButtonActionPerformed
-
-        if(changed){
-  
-        SaveDialog.setVisible(true);
-        SaveDialog.setSize(330, 120);
-        SaveDialog.setLocationRelativeTo(null);
-            
+                                                                                //Bulsante della toolbar per il caricamento di un documento
+        
+        if(changed){                                                            //verifica se il documento ha delle modifiche non salvate
+            SaveDialog.setVisible(true);                                        //in quel caso mostra una dialog per gestire il caso
+            SaveDialog.setSize(330, 120);
+            SaveDialog.setLocationRelativeTo(null);
+          }
+        else{                                                                   //altrimenti
+             showFileChooseLoad();                                              //mostra un filechooser per caricare il documento
         }
-        else{
-            
-            showFileChooseLoad();
-        }
-         
+        
     }//GEN-LAST:event_LoadButtonActionPerformed
-
+    
     private void SelezioneLingItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_SelezioneLingItemStateChanged
-
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
-
-            String lang = SelezioneLing.getSelectedItem().toString();
-            String oldText = EditorPannel.getText();
-
-            setLenguage(lang.substring(5));
-            setLenguageBox(lang.substring(5));
-
-            EditorPannel.setContentType(lang);
-            
-            Toolbar.removeAll();
-            Toolbar.add(NewFileButton);
+        //listener del box di selezione linguaggio
+        
+        if (evt.getStateChange() == ItemEvent.SELECTED) {  
+            String lang = SelezioneLing.getSelectedItem().toString();           //memorizza il linguaggio in una stringa
+            String oldText = EditorPannel.getText();                            //memorizza il testo del coumento
+            setLenguage(lang.substring(5));                                     //setta il linguaggio
+            EditorPannel.setContentType(lang);                                  //modifica il tipo di documento nel EditorPannel
+            Toolbar.removeAll();                                                //distrugge la vecchia toolbar
+            Toolbar.add(NewFileButton);                                         //inserisce i button
             Toolbar.add(LoadButton);
             Toolbar.add(SaveButton);
             Toolbar.add(SaveAsButton);
-            Toolbar.add(ChangeWorkspaceButton);
-            EditorKit kit = EditorPannel.getEditorKit();
-
-            if (kit instanceof DefaultSyntaxKit) {
-                DefaultSyntaxKit defaultSyntaxKit = (DefaultSyntaxKit) kit;
+            Toolbar.add(ChangeWorkspaceButton);                             
+            EditorKit kit = EditorPannel.getEditorKit();                        //inserisce nella toolbar il kit del linguaggio    
+            if (kit instanceof DefaultSyntaxKit) {                              
+                DefaultSyntaxKit defaultSyntaxKit = (DefaultSyntaxKit) kit;     
                 defaultSyntaxKit.addToolBarActions(EditorPannel, Toolbar);
             }
             Toolbar.validate();
             try {
-                Document doc = kit.createDefaultDocument();
+                Document doc = kit.createDefaultDocument();                     //ricrea il Documento con il testo memorizzato 
                 doc.insertString(0, oldText, null);
                 EditorPannel.setDocument(doc);
             } catch (Exception ex) {
-                
-            JOptionPane p = new JOptionPane("errore nel cambio di linguaggio");
+                JOptionPane p = new JOptionPane("errore nel cambio di linguaggio");
             }
         }
         EditorPannel.requestFocusInWindow();
-
     }//GEN-LAST:event_SelezioneLingItemStateChanged
-
-    private void ChangeWorkspaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChangeWorkspaceButtonActionPerformed
-      
-        final JFileChooser fc = new JFileChooser(workspace);
-        fc.setFileSelectionMode(1);
-        int returnVal = fc.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            workspace = fc.getSelectedFile().getAbsolutePath();
-            TreeNavigator.setModel(new FileSystemModel(new File(workspace)));
-        }
-    }//GEN-LAST:event_ChangeWorkspaceButtonActionPerformed
-
-    private void PathBrowseButtonDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PathBrowseButtonDialogActionPerformed
-     
-        final JFileChooser fc = new JFileChooser(workspace);
-        fc.setFileSelectionMode(1);
-        int returnVal = fc.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            PathDialog.setText(fc.getSelectedFile().getAbsolutePath());
-        }
-    }//GEN-LAST:event_PathBrowseButtonDialogActionPerformed
-
-    private void OkButtonDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OkButtonDialogActionPerformed
-
-        EditorPannel.setDocument(EditorPannel.getEditorKit().createDefaultDocument());
-        className = nameDialogTxt.getText();
-
-        setLenguage(ExtensionDialog.getSelectedItem().toString());
-        setLenguageBox(ExtensionDialog.getSelectedItem().toString());
-
-        path = PathDialog.getText();
-        NewClassDialog.dispose();
-        saveFile();
-        
-    }//GEN-LAST:event_OkButtonDialogActionPerformed
-
-    private void CancelButtonDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonDialogActionPerformed
     
-        NewClassDialog.dispose();
+    private void ChangeWorkspaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChangeWorkspaceButtonActionPerformed
         
+        //apre un file chooser per selezionare un path come nuova workspace
+        workspace = showPathFileChooser();
+        TreeNavigator.setModel(new FileSystemModel(new File(workspace)));       //resetta il navigatore con il nuovo workspace
+        
+    }//GEN-LAST:event_ChangeWorkspaceButtonActionPerformed
+    
+    private void PathBrowseButtonDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PathBrowseButtonDialogActionPerformed
+        
+        //listener per il pulsante per cambiare il path nella dialogFrame per creare un nuovo documento
+        PathDialog.setText(showPathFileChooser());
+        
+    }//GEN-LAST:event_PathBrowseButtonDialogActionPerformed
+    
+    private void OkButtonDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OkButtonDialogActionPerformed
+      
+        //il pulsante ok della dialogFrame della creazione di un nuovo documento
+        EditorPannel.setDocument(EditorPannel.getEditorKit().createDefaultDocument()); //crea il nuovo documento
+        className = nameDialogTxt.getText();                                    //memorizza il nome
+        classExtention=ExtensionDialog.getSelectedItem().toString();            //memorizza l'estensione
+        setLenguage(classExtention);                                            //setta il linguaggio
+        path = PathDialog.getText();                                            //memorizza il path
+        NewClassDialog.dispose();                                               //elimina la dialogFrame
+        saveFile();                                                             //salva il file
+    }//GEN-LAST:event_OkButtonDialogActionPerformed
+    
+    private void CancelButtonDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonDialogActionPerformed
+        //il pulsante per annullare la creazione della nuova classe
+        NewClassDialog.dispose();                                               //elimina la dialogFrame
     }//GEN-LAST:event_CancelButtonDialogActionPerformed
-
+    
     private void NewFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewFileButtonActionPerformed
-
-        ExtensionDialog.setSelectedItem(classExtention);
-        PathDialog.setText(path);
-        NewClassDialog.setVisible(true);
+        //crea e mostra la DialogFrame per la creazione di un nuovo documento
+        ExtensionDialog.setSelectedItem(classExtention);                        //seleziona il linguaggio attualmente implementato nella box della dialogFrame
+        PathDialog.setText(path);                                               //setta il path attuale a quello per la creazione
+        NewClassDialog.setVisible(true);                                        //rende visibile, setta la dimensione e la posizione della DialogFrame
         NewClassDialog.setSize(450, 220);
-        NewClassDialog.setLocationRelativeTo(null);
-        
+        NewClassDialog.setLocationRelativeTo(null);     
     }//GEN-LAST:event_NewFileButtonActionPerformed
-
+    
     private void SaveAsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveAsButtonActionPerformed
-        JFileChooser fc;
-        
-        if (path == null) {
-            fc = new JFileChooser(workspace);
-            fc.setSelectedFile(new File(workspace + "\\" + className + classExtention));
-        } else {
-            fc = new JFileChooser(path);
-            fc.setSelectedFile(new File(path + "\\" + className +classExtention));
-        }
-
-        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.sh","sh"));
+     
+        //listener del pulsante salva con nome
+        JFileChooser fc= new JFileChooser(path);                                //inizializza una filechooser
+        fc.setSelectedFile(new File(path + "\\" + className +classExtention));  //setta il file selezionato di default a quello auttualmente aperto
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.sh","sh"));    //filtri delle estensioni
         fc.addChoosableFileFilter(new FileNameExtensionFilter("*.c","c"));
         fc.addChoosableFileFilter(new FileNameExtensionFilter("*.cpp","cpp"));
         fc.addChoosableFileFilter(new FileNameExtensionFilter("*.h","h"));
@@ -539,196 +513,196 @@ public class Frame extends javax.swing.JFrame {
         fc.addChoosableFileFilter(new FileNameExtensionFilter("*.html","html"));
         fc.addChoosableFileFilter(new FileNameExtensionFilter("*.xml","xml"));
         fc.addChoosableFileFilter(new FileNameExtensionFilter("*.xpath","xpath"));
-            
-        int returnVal = fc.showSaveDialog(Frame.this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            saveFile();
-            TreeNavigator.setModel(new FileSystemModel(new File(workspace)));
+        
+        int returnVal = fc.showSaveDialog(Frame.this);                          //memorizza la risposta del filechooser
+        if (returnVal == JFileChooser.APPROVE_OPTION) {                         //se è un valore accettato
+            String temp = fc.getSelectedFile().getAbsolutePath();               //memorizza il path su una stringa temporanea
+            path=temp.substring(0, temp.lastIndexOf("\\"));                     //setta il path
+            className = temp.substring(temp.lastIndexOf("\\"), temp.lastIndexOf("."));  //setta il nome
+            classExtention = temp.substring(temp.lastIndexOf("."),temp.length());       //setta l'estensione
+            saveFile();                                                         //salva il file
+            TreeNavigator.setModel(new FileSystemModel(new File(workspace)));   //aggiorna il navigatore
         }
     }//GEN-LAST:event_SaveAsButtonActionPerformed
-
+    
     private void SaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveButtonActionPerformed
-        saveFile();
+    //listener per il semplice salvataggio
+        saveFile();                                         
     }//GEN-LAST:event_SaveButtonActionPerformed
-
+    
     private void TreeNavigatorValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_TreeNavigatorValueChanged
-      
-        if (TreeNavigator.getSelectionPath().toString().contains(".")) {
-            
-           try{ int j = oldPath.lastIndexOf("/");
-           oldPath = oldPath.substring(0,j);
-           }catch(Exception e){
-           JOptionPane p = new JOptionPane("errore nel caricare il path "+oldPath);
-           }
-            path = TreeNavigator.getSelectionPath().toString().replaceAll("[\\[\\]]", "").replace(", ", "/");
-            if(changed){
-                SaveDialogNavigator.setVisible(true);
+        //listener per il navigatore
+        if (TreeNavigator.getSelectionPath().toString().contains(".")) {        //se l'elemento selezionato è un documento
+            try{
+                int j = oldPath.lastIndexOf("/");                               //estrapola il vecchio path
+                oldPath = oldPath.substring(0,j);
+            }catch(Exception e){
+                JOptionPane p = new JOptionPane("errore nel caricare il path "+oldPath);
+            }
+             if(changed){                                                        //se il documento ha delle modifiche non salvate
+                SaveDialogNavigator.setVisible(true);                           //crea, dimensiona e posiziona una DialogFrame per salvare
                 SaveDialogNavigator.setSize(320, 120);
                 SaveDialogNavigator.setLocationRelativeTo(null);
-            }else{
-              navigatorLoad();  
+            }else{                                                              //se non ci sono modiche
+                navigatorLoad();                                                //carica il documento selezionato
             }
         }
     }//GEN-LAST:event_TreeNavigatorValueChanged
-
+    
     private void siSaveDialogButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_siSaveDialogButtonActionPerformed
-       
-        saveFile();  
-        SaveDialog.dispose();
-        showFileChooseLoad();
+        //pulsante per salvare nella DialogFrame di salvataggio di un documento modificato quando ne viene caricato uno tramite il pulsante in toolbar
+        saveFile();                                                             //salva il fle
+        SaveDialog.dispose();                                                   //chiude la DialogFrame
+        showFileChooseLoad();                                                   //mostra il filechooser
     }//GEN-LAST:event_siSaveDialogButtonActionPerformed
-
+    
     private void noSaveDialogButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noSaveDialogButtonActionPerformed
-        SaveDialog.dispose();
-        showFileChooseLoad();
+        //pulsante no del DialogFrame di salvataggio di documenti modificato quando ne viene caricato uno tramite il pulsante in toolbar
+        SaveDialog.dispose();                                                   //chiude la DialogFrame   
+        showFileChooseLoad();                                                   //mostra il fileChooser
     }//GEN-LAST:event_noSaveDialogButtonActionPerformed
-
+    
     private void AnnullaSaveDialogButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnnullaSaveDialogButtonActionPerformed
-        SaveDialog.dispose();
+        //pulsante annulla del DialogFrame di salvataggio di documenti modificato quando ne viene caricato uno tramite il pulsante in toolbar
+        SaveDialog.dispose();                                                   //chiudi la DialogFrame
     }//GEN-LAST:event_AnnullaSaveDialogButtonActionPerformed
-
+    
     private void SaveNavAnnullaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveNavAnnullaActionPerformed
-        path=oldPath;
-        SaveDialogNavigator.dispose();
-
+        //pulsante annulla del DialogFrame di salvataggio di documenti modificato quando ne viene caricato uno tramite il navigatore
+        path=oldPath;                                                           //aggiorna il path
+        SaveDialogNavigator.dispose();                                          //chiude la DialogFrame
     }//GEN-LAST:event_SaveNavAnnullaActionPerformed
-
+    
     private void SaveNavSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveNavSiActionPerformed
-       
-        saveFileNav(oldPath);
-        SaveDialogNavigator.dispose();
-        navigatorLoad();
-
+          //pulsante Si del DialogFrame di salvataggio di documenti modificato quando ne viene caricato uno tramite il navigatore
+        saveFileNav(oldPath);                                                   //chiama un metodo specifico per salvare il file
+        SaveDialogNavigator.dispose();                                          //chiude la DialogFrame
+        navigatorLoad();                                                        //chiama un metodo specifico per caricare il file
     }//GEN-LAST:event_SaveNavSiActionPerformed
-
+    
     private void SaveNavNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveNavNoActionPerformed
-
-        SaveDialogNavigator.dispose();
-        navigatorLoad();
+        //pulsante no del DialogFrame di salvataggio di documenti modificato quando ne viene caricato uno tramite il navigatore
+        SaveDialogNavigator.dispose();                                          //chiude la DialogFrame
+        navigatorLoad();                                                        //chiama un metodo specifico per caricare il file
     }//GEN-LAST:event_SaveNavNoActionPerformed
-
+    
     
     ////////////////////////METODI DI UTILITA'//////////////////////////////////
-   
+    
     private void saveFile(){
-        
-         try {
-            FileWriter out = new FileWriter(new File(path, className + classExtention));
-            out.write(EditorPannel.getText());
-            out.close();
-            changed = false;
+        //metodo per il salvataggio del Documento
+        try {                                                                   //try - catch
+            FileWriter out = new FileWriter(new File(path, className + classExtention));    //crea il file con un filewriter
+            out.write(EditorPannel.getText());                                  //vi inserisce il testo
+            out.close();                                                        //chiude il filewriter 
+            changed = false;                                                    //il documento non ha subito modifiche
         } catch (IOException ex) {
             JOptionPane p = new JOptionPane("errore nel salvataggio del file");
         }
+        TreeNavigator.setModel(new FileSystemModel(new File(workspace)));       //resetta il navigatore
     }
     private void saveFileNav(String path){
-        
-         try {
-            FileWriter out = new FileWriter(new File(path, className + classExtention));
-            out.write(EditorPannel.getText());
-            out.close();
-            changed = false;
+        //metodo di salvataggio specifico per il navigatore, si può specificare il path
+        try {
+            FileWriter out = new FileWriter(new File(path, className + classExtention));//crea il file con un filewriter
+            out.write(EditorPannel.getText());                                  //vi inserisce il testo
+            out.close();                                                        //chiude il filewriter
+            changed = false;                                                    //il documento non ha subito modifiche
         } catch (IOException ex) {
             JOptionPane p = new JOptionPane("errore nel salvataggio del file");
         }
+        TreeNavigator.setModel(new FileSystemModel(new File(workspace)));       //resetta il navigatore
     }
     
     private void loadFile(String filename) throws IOException {
-        
-        Document doc = EditorPannel.getEditorKit().createDefaultDocument();
-        String str = new String(Files.readAllBytes(Paths.get(filename)));
-        try {
-            doc.insertString(0, str, null);
-            EditorPannel.setDocument(doc);
-            EditorPannel.getDocument().addDocumentListener(new GUI.DocumentListner());
-            changed = false;
+        //metodo per caricare un file attraverso il path assoluto
+        Document doc = EditorPannel.getEditorKit().createDefaultDocument();     //crea un nuovo documento
+        String str = new String(Files.readAllBytes(Paths.get(filename)));       //memorizza in una stringa tutti i byte del file di path specificato
+        try {                                                                   //Blocco try/catch
+            doc.insertString(0, str, null);                                     //crea un documento dove inserisce la stringa concenente tutti i caratteri del Documento
+            EditorPannel.setDocument(doc);                                      //Setta il documento a quello creato
+            EditorPannel.getDocument().addDocumentListener(new GUI.DocumentListner());  //aggiunge un listener per le modifiche apportate al documento
+            changed = false;                                                    //il documento appena caricato non è ancora stato modificato
         } catch (BadLocationException ex) {
             JOptionPane p = new JOptionPane("errore nel metodo di caricamento del file");
         }
+         TreeNavigator.setModel(new FileSystemModel(new File(workspace)));      //aggiorna il navigatore
     }
-
+    
     private void showFileChooseLoad(){
+        //metodo per mostrare il fileChooser per caricare un nuovo Documento
         
-       
-            final JFileChooser fc = new JFileChooser(workspace);
-
-            fc.addChoosableFileFilter(new FileNameExtensionFilter("*.sh","sh"));
-            fc.addChoosableFileFilter(new FileNameExtensionFilter("*.c","c"));
-            fc.addChoosableFileFilter(new FileNameExtensionFilter("*.cpp","cpp"));
-            fc.addChoosableFileFilter(new FileNameExtensionFilter("*.h","h"));
-            fc.addChoosableFileFilter(new FileNameExtensionFilter("*.clj","clj"));
-            fc.addChoosableFileFilter(new FileNameExtensionFilter("*.dat","dat"));
-            fc.addChoosableFileFilter(new FileNameExtensionFilter("*.groovy","groovy"));
-            fc.addChoosableFileFilter(new FileNameExtensionFilter("*.java","java"));
-            fc.addChoosableFileFilter(new FileNameExtensionFilter("*.js","javaScript"));
-            fc.addChoosableFileFilter(new FileNameExtensionFilter("*.jflex","jflex"));
-            fc.addChoosableFileFilter(new FileNameExtensionFilter("*.lua","lua"));
-            fc.addChoosableFileFilter(new FileNameExtensionFilter("*.properties",".properties"));
-            fc.addChoosableFileFilter(new FileNameExtensionFilter("*.py","pyton"));
-            fc.addChoosableFileFilter(new FileNameExtensionFilter("*.rb","ruby"));
-            fc.addChoosableFileFilter(new FileNameExtensionFilter("*.scala","scala"));
-            fc.addChoosableFileFilter(new FileNameExtensionFilter("*.sql","sql"));
-            fc.addChoosableFileFilter(new FileNameExtensionFilter("*.tal","tal"));
-            fc.addChoosableFileFilter(new FileNameExtensionFilter("*.xhtml","xhtml"));
-            fc.addChoosableFileFilter(new FileNameExtensionFilter("*.html","html"));
-            fc.addChoosableFileFilter(new FileNameExtensionFilter("*.xml","xml"));
-            fc.addChoosableFileFilter(new FileNameExtensionFilter("*.xpath","xpath"));
-            fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
-            int returnVal = fc.showOpenDialog(this);
-     
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                    try {
-                        File file = fc.getSelectedFile();
-                        path = file.getAbsolutePath();
-                        int j = path.lastIndexOf("\\");
-                        path = path.substring(0, j);
-                        className = fc.getName(file);
-                        int i = fc.getSelectedFile().getPath().lastIndexOf(".");
-
-                        setLenguage(fc.getSelectedFile().getPath().substring(i + 1));
-                        setLenguageBox(fc.getSelectedFile().getPath().substring(i + 1));
-
-                        loadFile(fc.getSelectedFile().getPath());      
-                        changed = false;
-                     } catch (IOException ex) {
-                   JOptionPane p = new JOptionPane("errore nel caricamento del file");
-                    }
+        final JFileChooser fc = new JFileChooser(workspace);                    //crea il FileChooser, impostando il workspace come root
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.sh","sh"));    //creazione dei filtri
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.c","c"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.cpp","cpp"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.h","h"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.clj","clj"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.dat","dat"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.groovy","groovy"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.java","java"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.js","javaScript"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.jflex","jflex"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.lua","lua"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.properties",".properties"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.py","pyton"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.rb","ruby"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.scala","scala"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.sql","sql"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.tal","tal"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.xhtml","xhtml"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.html","html"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.xml","xml"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("*.xpath","xpath"));
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);                       //il FileChooser accetta solo file
+        int returnVal = fc.showOpenDialog(this);                                //memorizza quello che viene restituito dal FileChooser  
+        if (returnVal == JFileChooser.APPROVE_OPTION) {                         //se questo valore è accettato
+            try {                                                               //Blocco Try/catch
+                path = fc.getSelectedFile().getAbsolutePath();                  //Memorizza il path
+                int j = path.lastIndexOf("\\");                                 //trova l'ultima \ che corrisponde alla fine del path
+                path = path.substring(0, j);                                    //estrapola la sottostringa
+                className = fc.getName(fc.getSelectedFile());                   //memorizza il nome della classe
+                int i = fc.getSelectedFile().getPath().lastIndexOf(".");        //trova il punto
+                setLenguage(fc.getSelectedFile().getPath().substring(i + 1));   //estrapola l'estensione e setta il linguaggio
+                loadFile(fc.getSelectedFile().getPath());                       //carica il file
+            } catch (IOException ex) {
+                JOptionPane p = new JOptionPane("errore nel caricamento del file");
+            }
         }
     }
     
     private void navigatorLoad(){
-     
-        oldPath = path;
-        path = TreeNavigator.getSelectionPath().toString().replaceAll("[\\[\\]]", "").replace(", ", "/");
+    //Metodo per caricare un file attraverso il navigatore
+        oldPath = path;                                                         //memorizza l'elemento caricato precedentemente
+        path = TreeNavigator.getSelectionPath().toString()                      //setta il nuovo path, manipolando la stringa per renderla appropriata
+                            .replaceAll("[\\[\\]]", "").replace(", ", "/"); 
 
-        if (path.contains(".")) {
-            try {
-                String result[] = path.split("/");
-                String returnValue = result[result.length - 1];
-                int i = returnValue.lastIndexOf(".");
-                int j = path.lastIndexOf("/");
-                path = path.substring(0, j);
-                className = returnValue.substring(0, i);
-                classExtention = returnValue.substring(i);
-                setLenguage(returnValue.substring(i + 1));
-                setLenguageBox(returnValue.substring(i + 1));
-
-                loadFile(TreeNavigator.getSelectionPath().toString().replaceAll("[\\[\\]]", "").replace(", ", "\\"));
-                changed = false;
+        if (path.contains(".")) {                                               //se l'ememento è un Documento
+            try {                                                               //Blocco Try/Catch
+                String result[] = path.split("/");                              //separa la stringa del path
+                String returnValue = result[result.length - 1];                 //memorizza l'ultima parte(nome file + estensione)
+                int i = returnValue.lastIndexOf(".");                           //trova il punto per separare nome ed estensione
+                int j = path.lastIndexOf("/");                                  //e trova l'ultima cartella del path
+                path = path.substring(0, j);                                    //setta il path estrapolando la sottostringa appropriata
+                className = returnValue.substring(0, i);                        //setta il nome del Documento estrapolando la sottostringa appropriata
+                setLenguage(returnValue.substring(i + 1));                      //setta l'estensione del Documento estrapolando la sottostringa appropriata
+                loadFile(TreeNavigator.getSelectionPath().toString()            //carica il Documento
+                         .replaceAll("[\\[\\]]", "").replace(", ", "\\"));
+                changed = false;                                                //il documento appena caricato non ha subito modifiche
             } catch (IOException ex) {
                 JOptionPane p = new JOptionPane("errore nel caricamento del file tramite navigator");
             }
         }
     }
     
-    public static void setChanged(boolean b){
-        changed = b;
+    public static void setChanged(boolean b){                                   //serve al listener per modificare il booleano che tiene conto dei cambiamenti
+        changed = b;                                                           
     }
     
-    public void setLenguage(String s) {
-
-        if (s.equals("bash")) {
+    public void setLenguage(String s) {                                         //metodo per settare il linguaggio
+        
+        setLenguageBox(s);                                                      //Chiama il metodo per settare il linguaggio nel box di selezione
+        if (s.equals("bash")) {                                                 //verifica una serie di linguaggi impostando le estensioni appropriate
             classExtention = ".sh";
             return;
         }
@@ -755,27 +729,31 @@ public class Frame extends javax.swing.JFrame {
         if (s.equals("ruby")) {
             classExtention = ".rb";
             return;
-        } 
+        }
         classExtention = "."+s;
-      
     }
-
-    public void setLenguageBox(String s) {
-
-        
-        EditorPannel.setContentType("text/" + s);
-        SelezioneLing.setSelectedItem("text/" + s);
-        ExtensionDialog.setSelectedItem("."+s);
-   
+    
+    public void setLenguageBox(String s) {                                      //metodo per settare il linguaggio del box di selezione a quello specificato in input
+        EditorPannel.setContentType("text/" + s);                               //setta il tipo di Documento nel Editor Pannel
+        SelezioneLing.setSelectedItem("text/" + s);                             //setta il linguaggio nel Box
+        ExtensionDialog.setSelectedItem("."+s);                                 //setta l'estensione nella DialogFrame per la creazione di un nuovo Documento
     }
-
-            ///////////////////MAIN/////////////////
+    
+    public String showPathFileChooser(){                                        //il metodo crea e mostra a schermo un filechooser per selezionare un path
+        final JFileChooser fc = new JFileChooser(workspace);                    //inizializza il filechooser
+        fc.setFileSelectionMode(1);                                             //che vede solo le cartelle
+        int returnVal = fc.showOpenDialog(this);                                //memorizza il risultato
+        if (returnVal == JFileChooser.APPROVE_OPTION) {                         //se è un file accettato
+            return fc.getSelectedFile().getAbsolutePath();                      //restituisce il path selezionato
+        }
+        return null;
+    }    
+    ///////////////////MAIN/////////////////
     
     
-    public static void main(String args[]) {
-
+    public static void main(String args[]) {                                    //main
         try {
-            UIManager.setLookAndFeel(
+            UIManager.setLookAndFeel(                                           //carica il look and feel utilizzato dal sistema operativo
                     UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException ex) {
             JOptionPane p = new JOptionPane("errore nel caricamento del look and feel");
@@ -786,24 +764,23 @@ public class Frame extends javax.swing.JFrame {
         } catch (UnsupportedLookAndFeelException ex) {
             JOptionPane p = new JOptionPane("errore nel caricamento del look and feel");
         }
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Frame().setVisible(true);
+        java.awt.EventQueue.invokeLater(new Runnable() {                        //Main Thread
+            public void run() {                                                 //metoro run
+                new Frame().setVisible(true);                                   //crea e rende visibile la Frame
             }
         });
     }
-
+    
     ///////////////////////////////DICHIARAZIONE OGGETTI/////////////////////////
     
-    private String workspace = "C:\\Users\\Rum\\workspace\\INGSW";
-    private String className = "ClojureLexer";
-    private String path = workspace;
-    private String classExtention = ".java";
-    private String oldPath = path;
-    private static boolean changed = false;
-    private Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-
+    private String workspace = "C:\\Users\\Rum\\workspace\\INGSW";              //tiene memoria del workspace
+    private String className = "INGSW_README";                                  //il nome del Documento attualmente aperto
+    private String path = "./target/";                                          //Il path del Documento attualmente aperto
+    private String classExtention = ".java";                                    //L'estensione del Documento
+    private String oldPath = path;                                              //Stringa per memorizzare il path del Docuemnto aperto dal Navigator
+    private static boolean changed = false;                                     //Il Booleano memorizza del il Documento ha subito delle modifiche
+    private Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();        //la dimensioni dello schermo
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AnnullaSaveDialogButton;
     private javax.swing.JButton CancelButtonDialog;

@@ -35,7 +35,7 @@ public final class Frame extends javax.swing.JFrame {
         setLenguageBox("java");                                                  //setta il box di scelta linguaggio su java
         CaretMonitor caretMonitor = new CaretMonitor(EditorPannel, IndiceRigaDoc); //monitora l'indice di riga e carattere del documento
          try {
-            loadFile("./target/INGSW_README.java");
+            loadFile("C:/Users/Rum/Desktop/INGSW_README.java");
         } catch (IOException ex) {
 
             JOptionPane p = new JOptionPane("Documento di default non trovato");
@@ -348,7 +348,7 @@ public final class Frame extends javax.swing.JFrame {
         SplitPanel.setLeftComponent(ScrollTree);
 
         EditorPannel.setBorder(null);
-        EditorPannel.setMinimumSize(new java.awt.Dimension(300, 14));
+        EditorPannel.setMinimumSize(new java.awt.Dimension(600, 14));
         EditorScroll.setViewportView(EditorPannel);
 
         SplitPanel.setRightComponent(EditorScroll);
@@ -775,7 +775,7 @@ public final class Frame extends javax.swing.JFrame {
     
     private String workspace = "C:\\Users\\Rum\\workspace\\INGSW";              //tiene memoria del workspace
     private String className = "INGSW_README";                                  //il nome del Documento attualmente aperto
-    private String path = "./target/";                                          //Il path del Documento attualmente aperto
+    private String path = "C:/Users/Rum/Desktop";                                          //Il path del Documento attualmente aperto
     private String classExtention = ".java";                                    //L'estensione del Documento
     private String oldPath = path;                                              //Stringa per memorizzare il path del Docuemnto aperto dal Navigator
     private static boolean changed = false;                                     //Il Booleano memorizza del il Documento ha subito delle modifiche
